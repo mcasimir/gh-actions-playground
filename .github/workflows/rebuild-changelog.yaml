@@ -38,13 +38,13 @@ jobs:
             echo "line: $line --- tag: $tagName"
 
             json=$(gh release view $tagName --json=name,publishedAt,url,body)
-            url=$(echo $json | jq .url)
-            name=$(echo $json | jq .name)
-            date=$(echo $json | jq .publishedAt | cut -f1 -dT)
-            body=$(echo $json | jq .body)
+            url=$(echo $json | jq -r .url)
+            name=$(echo $json | jq -r .name)
+            date=$(echo $json | jq -r .publishedAt | cut -f1 -dT)
+            body=$(echo $json | jq -r .body)
             echo "## [$name]($url) - $date" >> CHANGELOG.md
             echo "" >> CHANGELOG.md
-            echo "$body"
+            echo "$body" >> CHANGELOG.md
             echo "" >> CHANGELOG.md
             echo "" >> CHANGELOG.md
           done
