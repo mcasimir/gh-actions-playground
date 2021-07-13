@@ -52,6 +52,7 @@ jobs:
           gh release create "${RELEASE_TAG}" \
             --title "${RELEASE_TAG}" \
             --notes "Edit the release notes before publishing." \
+            --target main \
             --draft \
             *.vsxi
         env:
