@@ -43,5 +43,5 @@ jobs:
 
       - name: Commit CHANGELOG.md changes
         run: |
-          git add CHANGELOG.md.md
-          git commit --no-allow-empty -m "chore: update CHANGELOG.md" CHANGELOG.md.md || true
+          git add CHANGELOG.md
+          git commit --no-allow-empty -m "chore: update CHANGELOG.md" CHANGELOG.md || true
