@@ -50,7 +50,8 @@ jobs:
         with:
           body: ${{steps.github_release.outputs.changelog}}
           draft: true
-          files: "*.vsxi"
+          files: |
+            *.vsxi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         if: startsWith(github.ref, 'refs/tags/')
