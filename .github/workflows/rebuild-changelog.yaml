@@ -45,3 +45,8 @@ jobs:
         run: |
           git add CHANGELOG.md
           git commit --no-allow-empty -m "chore: update CHANGELOG.md" CHANGELOG.md || true
+      - name: Push updates
+          uses: ad-m/github-push-action@v0.6.0
+          with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            branch: main
