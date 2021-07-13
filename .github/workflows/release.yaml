@@ -49,7 +49,11 @@ jobs:
       - name: Create Draft Release
         run: |
           echo Creating draft release for: "${RELEASE_TAG}"
-          gh release create "${RELEASE_TAG}" --title "${RELEASE_TAG}" --notes "Edit the release notes before publishing." --draft *.vsxi
+          gh release create "${RELEASE_TAG}" \
+            --title "${RELEASE_TAG}" \
+            --notes "Edit the release notes before publishing." \
+            --draft \
+            *.vsxi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RELEASE_NOTES: ${{steps.github_release.outputs.changelog}}
