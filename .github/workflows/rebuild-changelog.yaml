@@ -29,16 +29,25 @@ jobs:
 
       - name: Update CHANGELOG.md
         run: |
-          echo "# Change Log\n" > CHANGELOG.md
+          echo "# Change Log" > CHANGELOG.md
+          echo "" >> CHANGELOG.md
 
           gh release list | while read line; do
             echo "line: $line\n\n"
-            first_arg=$(echo $line | cut -f1 -d' ')
-            echo "\n\n"
-            echo first: $first_arg
-            gh release view $first_arg --json=name,publishedAt,url || true
+            tagName=$(echo $line | awk '{ print $3 }')
+            json=$(gh release view $tagName --json=name,publishedAt,url,body)
+            url=$(echo $json | jq .url)
+            name=$(echo $json | jq .name)
+            date=$(echo $json | jq .publishedAt | cut -f1 -dT)
+            body=$(echo $json | jq .body)
+            echo "## [$name]($url) - $date" >> CHANGELOG.md
+            echo "" >> CHANGELOG.md
+            echo "$body"
+            echo "" >> CHANGELOG.md
+            echo "" >> CHANGELOG.md
           done
 
+          cat CHANGELOG.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
