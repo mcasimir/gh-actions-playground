@@ -1,31 +1,21 @@
 name: Rebuild changelog
 
 on:
+  # Once a week or on release published
   release:
     types: [published]
-  # Once a week or on pushes to main
   schedule:
     - cron: "0 3 * * 0"
-  push:
-    branches:
-      - main
 
 jobs:
   update_generated_files:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-    #   - uses: actions/setup-node@v2
-    #     with:
-    #       node-version: ^12.9.0
-
-    #   - name: Install npm@7
-    #     run: npm install -g npm@7
-
-    #   - name: Set up Git
-    #     run: |
-    #       git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-    #       git config --local user.name "github-actions[bot]"
+      - name: Set up Git
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
 
       - name: Update CHANGELOG.md
         run: |
@@ -48,26 +38,10 @@ jobs:
             echo "" >> CHANGELOG.md
             echo "" >> CHANGELOG.md
           done
-
-          cat CHANGELOG.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      #   run: npm run update-third-party-notices
-
-      # - name: Commit THIRD-PARTY-NOTICES changes
-      #   run: |
-      #     git add THIRD-PARTY-NOTICES.md
-      #     git commit --no-allow-empty -m "chore: update THIRD-PARTY-NOTICES" THIRD-PARTY-NOTICES.md || true
-
-      # - name: Update AUTHORS
-      #   run: npm run update-authors
-      # - name: Commit AUTHORS changes
-      #   run: |
-      #     git add AUTHORS
-      #     git commit --no-allow-empty -m "chore: update AUTHORS" AUTHORS || true
-      # - name: Push updates
-      #   uses: ad-m/github-push-action@v0.6.0
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     branch: main
+      - name: Commit CHANGELOG.md changes
+        run: |
+          git add CHANGELOG.md.md
+          git commit --no-allow-empty -m "chore: update CHANGELOG.md" CHANGELOG.md.md || true
