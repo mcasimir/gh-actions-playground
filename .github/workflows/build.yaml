@@ -51,7 +51,7 @@ jobs:
           echo Creating draft release for: "${RELEASE_TAG}"
           gh release create "${RELEASE_TAG}" \
             --title "${RELEASE_VERSION}" \
-            --notes "Edit the release notes before publishing." \
+            --notes "Edit the release notes before publishing.\n" \
             --target main \
             --draft \
             *.vsxi

@@ -29,11 +29,14 @@ jobs:
 
       - name: Update CHANGELOG.md
         run: |
+          echo "# Change Log\n" > CHANGELOG.md
+
           gh release list | while read line; do
-            echo line: $line
+            echo "line: $line\n\n"
             first_arg=$(echo $line | cut -f1 -d' ')
+            echo "\n\n"
             echo first: $first_arg
-            gh release view $first_arg || true
+            gh release view $first_arg --json=title,url,published || true
           done
 
         env:
