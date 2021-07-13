@@ -13,4 +13,6 @@ jobs:
 
       - name: Download release assets
         run: |
-          echo Running!
+          echo "${ASSET_URL}"
+        env:
+          ASSET_URL: ${{ github.event.release.assets[0].url }}
