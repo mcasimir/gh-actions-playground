@@ -17,7 +17,6 @@ jobs:
       - name: Setup Node.js Environment
         uses: actions/setup-node@v2.1.2
         with:
-          # Version Spec of the version to use.  Examples: 12.x, 10.15.1, >=10.15.0
           node-version: ^12.9.0
 
       - name: Install npm@7
@@ -37,24 +36,20 @@ jobs:
           echo "See full release notes at: https://github.com/mongodb-js/vscode/releases/tag/${RELEASE_TAG}" > CHANGELOG.md
           npx json -I -f package.json -e "this.version='${RELEASE_VERSION}'"
           npx json -I -f package-lock.json -e "this.version='${RELEASE_VERSION}'"
+        if: startsWith(github.ref, 'refs/tags/')
 
+      - name: Build vsxi
+        # TODO: replace with real build
+        run: |
           cat CHANGELOG.md
           cat package.json
           cat package-lock.json
-
-        if: startsWith(github.ref, 'refs/tags/')
-
-      - name: Release Notes
-        uses: mikepenz/release-changelog-builder-action@v2.1.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        if: startsWith(github.ref, 'refs/tags/')
+          echo 'Replace this with a real build!' > fake.vsxi
 
       - name: Create Draft Release
         run: |
-          echo release tag: "${RELEASE_TAG}"
-          echo release notes: "${RELEASE_NOTES}"
-          gh release create "${RELEASE_TAG}" --notes "${RELEASE_NOTES}" --draft *.vsxi
+          echo Creating draft release for: "${RELEASE_TAG}"
+          gh release create "${RELEASE_TAG}" --notes "Edit the release notes before publishing." --draft *.vsxi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RELEASE_NOTES: ${{steps.github_release.outputs.changelog}}
