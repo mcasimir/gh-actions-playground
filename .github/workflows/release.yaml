@@ -50,7 +50,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         if: startsWith(github.ref, 'refs/tags/')
 
-      - run: |
+      - name: Create Draft Release
+        run: |
           echo release tag: "${RELEASE_TAG}"
           echo release notes: "${RELEASE_NOTES}"
           gh release create "${RELEASE_TAG}" --notes "${RELEASE_NOTES}" --draft *.vsxi
