@@ -36,7 +36,7 @@ jobs:
             first_arg=$(echo $line | cut -f1 -d' ')
             echo "\n\n"
             echo first: $first_arg
-            gh release view $first_arg --json=title,url,published || true
+            gh release view $first_arg --json=name,publishedAt,url || true
           done
 
         env:
