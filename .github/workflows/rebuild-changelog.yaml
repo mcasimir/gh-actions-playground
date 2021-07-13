@@ -33,8 +33,9 @@ jobs:
           echo "" >> CHANGELOG.md
 
           gh release list | while read line; do
-            echo "line: $line\n\n"
             tagName=$(echo $line | awk '{ print $3 }')
+            echo "line: $line --- tag: $tagName"
+
             json=$(gh release view $tagName --json=name,publishedAt,url,body)
             url=$(echo $json | jq .url)
             name=$(echo $json | jq .name)
