@@ -29,7 +29,13 @@ jobs:
 
       - name: Update CHANGELOG.md
         run: |
-          gh release list
+          gh release list | while read line; do
+            echo line: $line
+            first_arg=$(echo $line | cut -f1 -d' ')
+            echo first: $first_arg
+            gh release view $first_arg || true
+          done
+
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
