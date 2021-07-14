@@ -5,10 +5,14 @@ const chalk = require('chalk');
 const execa = require('execa');
 const yargsParser = require('yargs-parser');
 
-
 const REPO = 'mongodb-js/vscode'
 const GET_LAST_RELEASE_API_ENDPOINT = `https://api.github.com/repos/${REPO}/releases/latest`;
 const USAGE = `Usage: start-release *.*.*|major|minor|patch`;
+
+function fail(...error) {
+  cli.info(chalk.red('Error:'), ...error);
+  process.exit(1);
+}
 
 async function isDirty() {
   const { stdout } = await execa('git', ['status', '--porcelain']);
@@ -37,20 +41,20 @@ async function main() {
   const args = yargsParser(process.argv.slice(2));
 
   if (await getCurrentBranch() !== 'main') {
-    throw new Error('You can only run this script from the main branch');
+    fail('You can only run this script from the main branch');
   }
 
   if (await isDirty()) {
-    throw new Error('You have untracked or staged changes.');
+    fail('You have untracked or staged changes.');
   }
 
   if (!args.skipCheckHead && await revParse('HEAD') !== await revParse('origin/HEAD')) {
-    throw new Error('The current commit is not up to date with origin/HEAD.' +
+    fail('The current commit is not up to date with origin/HEAD.' +
       ' Rerun this script with --skipCheckHead to suppress this check');
   }
 
   if (args._.length !== 1) {
-    throw new Error(USAGE);
+    fail(USAGE);
   }
 
   const versionOrBumpType = args._[0];
@@ -65,7 +69,7 @@ async function main() {
     return await startRelease(new semver.SemVer(versionOrBumpType).version)
   }
 
-  throw new Error(USAGE);
+  fail(USAGE);
 }
 
 async function getLastReleaseVersion() {
@@ -91,9 +95,9 @@ async function startRelease(version) {
   cli.action.stop();
 
   cli.info(`
-Done!
+${chalk.green('Done!')}
 
-A release draft will be created at https://github.com/${REPO}/releases.
+A release draft will be created a  t https://github.com/${REPO}/releases.
 
 You can follow the build on https://github.com/${REPO}/actions/workflows/test-and-build.yaml.
 `)
