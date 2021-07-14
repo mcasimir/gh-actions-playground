@@ -97,9 +97,9 @@ async function startRelease(version) {
   cli.info(`
 ${chalk.green('Done!')}
 
-A release draft will be created a  t https://github.com/${REPO}/releases.
+A release draft will be created at https://github.com/${REPO}/releases.
 
-You can follow the build on https://github.com/${REPO}/actions/workflows/test-and-build.yaml.
+Follow the build: https://github.com/${REPO}/actions/workflows/test-and-build.yaml.
 `)
 }
 
