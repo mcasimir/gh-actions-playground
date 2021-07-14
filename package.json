@@ -16,5 +16,13 @@
   "bugs": {
     "url": "https://github.com/mcasimir/gh-actions-playground/issues"
   },
-  "homepage": "https://github.com/mcasimir/gh-actions-playground#readme"
+  "homepage": "https://github.com/mcasimir/gh-actions-playground#readme",
+  "devDependencies": {
+    "chalk": "^4.1.1",
+    "cli-ux": "^5.6.3",
+    "download": "^8.0.0",
+    "execa": "^5.1.1",
+    "semver": "^7.3.5",
+    "yargs-parser": "^20.2.9"
+  }
 }
